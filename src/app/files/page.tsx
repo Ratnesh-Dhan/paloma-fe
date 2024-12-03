@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Folder, File, ChevronRight, ChevronDown } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import axios from 'axios'
 
 interface FileItem {
   name: string
@@ -18,19 +19,11 @@ export default function FilesPage() {
   useEffect(() => {
     // Simulating fetching files from an API
     const fetchFiles = async () => {
-      // Replace this with actual API call
-      const mockFiles: FileItem[] = [
-        { name: 'Documents', type: 'folder', children: [
-          { name: 'report.pdf', type: 'file' },
-          { name: 'presentation.pptx', type: 'file' }
-        ]},
-        { name: 'Images', type: 'folder', children: [
-          { name: 'photo1.jpg', type: 'file' },
-          { name: 'photo2.png', type: 'file' }
-        ]},
-        { name: 'notes.txt', type: 'file' }
-      ]
-      setFiles(mockFiles)
+      // Fetch files from API
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/files`);
+      const files = response.data;
+      // console.log(files);
+      setFiles(files);
     }
 
     fetchFiles()

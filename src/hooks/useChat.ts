@@ -54,11 +54,15 @@ const useChat = () => {
         'x-chat-uuid': uuid
       }
     });
+    const source = response.data.sourceNodes;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const docs = source.map((s: any) => s.node.metadata);
+    // console.log(docs);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { options, ...message} = response.data.message;
-    console.log(message);
+    // console.log(message);
     setMessages([...msgs, message]);
-    return true;
+    return docs;
   }
 
   return {messages, chatSubmit, newChat}
