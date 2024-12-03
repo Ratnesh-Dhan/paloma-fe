@@ -3,11 +3,15 @@
 import useChat from '@/hooks/useChat';
 import {  useEffect, useState } from 'react'
 
+type Document = {
+  fileName: string,
+  pageNumber: number,
+}
 
 export default function ChatPage() {
   // const { messages, input, handleInputChange, handleSubmit } = useChat()
   const { messages, chatSubmit } = useChat()
-  const [documents] = useState<string[]>([])
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [search, setSearch] = useState('');
   const [generatingResponse, setGeneratingResponse] = useState(false);
 
@@ -25,11 +29,11 @@ export default function ChatPage() {
 
     setGeneratingResponse(true);
     setSearch('');
-    await chatSubmit(search);
+    const files = await chatSubmit(search);
 
     setGeneratingResponse(false);
     // Simulating fetching relevant documents
-    // setDocuments([`Document related to: ${input}`, 'Another relevant document'])
+    setDocuments([...files])
   }
 
   return (
@@ -66,7 +70,7 @@ export default function ChatPage() {
           <h2 className="text-lg font-semibold mb-2">Relevant Documents</h2>
           <ul>
             {documents.map((doc, index) => (
-              <li key={index} className="mb-1">{doc}</li>
+              <li key={index} className="mb-1">{doc.fileName}</li>
             ))}
           </ul>
         </div>

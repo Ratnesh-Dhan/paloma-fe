@@ -22,6 +22,7 @@ export default function FilesPage() {
       // Fetch files from API
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/files`);
       const files = response.data;
+      // console.log(files);
       setFiles(files);
     }
 
